@@ -1,0 +1,72 @@
+.products-container {
+    padding: 20px;
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.import-box {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.message {
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.product-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.product-price {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+/* 🔥 VERDE ORIGINALE RIPRISTINATO */
+.add-to-cart-btn {
+    background: #28a745;
+    /* verde */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.add-to-cart-btn:hover {
+    background: #218838;
+    /* verde più scuro */
+    transform: scale(1.05);
+}
+
+.add-to-cart-btn.added {
+    background: #1e7e34 !important;
+    transform: scale(1.1);
+}

@@ -1,0 +1,29 @@
+.page {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.table th,
+.table td {
+    border: 1px solid #e5e7eb;
+    padding: 8px 10px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.table th {
+    background: #f3f4f6;
+    font-weight: 600;
+}
+
+.error {
+    color: #b91c1c;
+    margin-top: 10px;
+}

@@ -1,0 +1,136 @@
+/* src/pages/Orders.css */
+
+.orders-page {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+}
+
+.orders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.orders-filters {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.orders-filters select {
+    margin-left: 4px;
+}
+
+.orders-content {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr;
+    gap: 16px;
+}
+
+.orders-list {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.orders-detail {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.orders-table th,
+.orders-table td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+.orders-table th {
+    background-color: #f5f5f5;
+    font-weight: 600;
+}
+
+.orders-row {
+    cursor: pointer;
+}
+
+.orders-row:hover {
+    background-color: #fafafa;
+}
+
+.orders-row.selected {
+    background-color: #e6f2ff;
+}
+
+.orders-delete-btn {
+    background-color: #e53935;
+    color: #fff;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.orders-delete-btn:hover {
+    background-color: #c62828;
+}
+
+.orders-loading,
+.orders-empty,
+.orders-detail-placeholder {
+    padding: 16px;
+    text-align: center;
+    color: #666;
+}
+
+.orders-detail-card h2 {
+    margin-top: 0;
+}
+
+.orders-items-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.orders-item {
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+}
+
+.orders-item:last-child {
+    border-bottom: none;
+}
+
+.orders-item-main {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+}
+
+.orders-item-prices {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #555;
+}
+
+.orders-error {
+    padding: 8px 12px;
+    background-color: #ffebee;
+    color: #c62828;
+    border-radius: 4px;
+    font-size: 14px;
+}
