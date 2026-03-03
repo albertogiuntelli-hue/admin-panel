@@ -1,21 +1,35 @@
+// backend/routes/productsRoutes.js
+
 import express from "express";
-import { getAllProducts, uploadCSV } from "../controllers/productController.js";
+import {
+    getProducts,
+    getProduct,
+    createNewProduct,
+    updateExistingProduct,
+    removeProduct,
+    uploadCSV
+} from "../controllers/productController.js";
+
 import upload from "../middleware/upload.js";
-import auth from "../middleware/auth.js";
-import admin from "../middleware/admin.js";
 
 const router = express.Router();
 
-// Ottieni tutti i prodotti
-router.get("/products", getAllProducts);
+// GET tutti i prodotti
+router.get("/", getProducts);
 
-// Upload CSV
-router.post(
-    "/products/upload-csv",
-    auth,
-    admin,
-    upload.single("file"),
-    uploadCSV
-);
+// GET singolo prodotto
+router.get("/:id", getProduct);
+
+// CREA prodotto
+router.post("/", upload.single("image"), createNewProduct);
+
+// AGGIORNA prodotto
+router.put("/:id", upload.single("image"), updateExistingProduct);
+
+// ELIMINA prodotto
+router.delete("/:id", removeProduct);
+
+// IMPORT CSV
+router.post("/import/csv", upload.single("file"), uploadCSV);
 
 export default router;

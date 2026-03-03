@@ -1,15 +1,13 @@
-import mongoose from "mongoose";
+import pkg from "pg";
+import dotenv from "dotenv";
 
-const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(process.env.MONGO_URI, {
-            dbName: process.env.MONGO_DB_NAME || "plusmarket",
-        });
-        console.log("MongoDB connected successfully");
-    } catch (error) {
-        console.error("MongoDB connection error:", error.message);
-        process.exit(1);
-    }
-};
+dotenv.config();
 
-export default connectDB;
+const { Pool } = pkg;
+
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
+});
+
+export default pool;

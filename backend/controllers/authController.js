@@ -1,74 +1,76 @@
-import Admin from "../models/Admin.js";
-import User from "../models/User.js";
+// backend/controllers/authController.js
+
+import pool from "../config/db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-// LOGIN ADMIN
-export const adminLogin = async (req, res) => {
+// LOGIN
+export const login = async (req, res) => {
+    const { email, password } = req.body;
+
     try {
-        const { email, password } = req.body;
-
-        // Cerca admin per email
-        const admin = await Admin.findOne({ email });
-        if (!admin) {
-            return res.status(400).json({ message: "Admin non trovato" });
-        }
-
-        // Confronta password
-        const valid = await bcrypt.compare(password, admin.password);
-        if (!valid) {
-            return res.status(400).json({ message: "Password errata" });
-        }
-
-        // Genera token JWT
-        const token = jwt.sign(
-            { id: admin._id, isAdmin: true },
-            process.env.JWT_SECRET,
-            { expiresIn: "7d" }
+        const result = await pool.query(
+            "SELECT * FROM users WHERE email = $1 LIMIT 1",
+            [email]
         );
 
-        // Risposta
-        res.json({
-            token,
-            admin: {
-                id: admin._id,
-                name: admin.name,
-                email: admin.email,
-                isAdmin: true
-            }
-        });
-
-    } catch (error) {
-        console.error("Errore login admin:", error);
-        res.status(500).json({ message: "Errore nel login admin" });
-    }
-};
-
-// LOGIN UTENTE NORMALE (OPZIONALE)
-export const userLogin = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-
-        const user = await User.findOne({ email });
-        if (!user) {
+        if (result.rows.length === 0) {
             return res.status(400).json({ message: "Utente non trovato" });
         }
 
-        const valid = await bcrypt.compare(password, user.password);
-        if (!valid) {
+        const user = result.rows[0];
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
             return res.status(400).json({ message: "Password errata" });
         }
 
         const token = jwt.sign(
-            { id: user._id, isAdmin: user.isAdmin },
+            { id: user.id, email: user.email },
             process.env.JWT_SECRET,
             { expiresIn: "7d" }
         );
 
-        res.json({ token, user });
+        res.json({
+            message: "Login effettuato",
+            token,
+            user: {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                role: user.role,
+            },
+        });
+    } catch (err) {
+        console.error("Errore login:", err);
+        res.status(500).json({ message: "Errore server" });
+    }
+};
 
-    } catch (error) {
-        console.error("Errore login utente:", error);
-        res.status(500).json({ message: "Errore nel login utente" });
+// REGISTRAZIONE
+export const register = async (req, res) => {
+    const { email, password, name, role } = req.body;
+
+    try {
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Inserisci nuovo utente
+        const result = await pool.query(
+            `INSERT INTO users (email, password, name, role)
+             VALUES ($1, $2, $3, $4)
+             RETURNING id, email, name, role`,
+            [email, hashedPassword, name, role || "user"]
+        );
+
+        const newUser = result.rows[0];
+
+        res.status(201).json({
+            message: "Registrazione completata",
+            user: newUser,
+        });
+    } catch (err) {
+        console.error("Errore registrazione:", err);
+        res.status(500).json({ message: "Errore server" });
     }
 };

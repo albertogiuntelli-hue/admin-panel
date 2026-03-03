@@ -1,12 +1,14 @@
+// backend/routes/authRoutes.js
+
 import express from "express";
-import { adminLogin, userLogin } from "../controllers/authController.js";
+import { login, register } from "../controllers/authController.js";
 
 const router = express.Router();
 
-// Login admin (per admin panel)
-router.post("/admin/login", adminLogin);
+// LOGIN UTENTE (admin o user)
+router.post("/login", login);
 
-// Login utente normale (se usato dal client)
-router.post("/login", userLogin);
+// REGISTRAZIONE UTENTE
+router.post("/register", register);
 
 export default router;

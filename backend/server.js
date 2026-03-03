@@ -1,41 +1,35 @@
-// ===============================
-//  SERVER BACKEND PLUSMARKET (ESM)
-// ===============================
-
 import express from "express";
-import mongoose from "mongoose";
 import cors from "cors";
-import path from "path";
-import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+import fileUpload from "express-fileupload";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import productsRoutes from "./routes/productsRoutes.js";
+import ordersRoutes from "./routes/ordersRoutes.js";
+
+dotenv.config();
 
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+}));
 app.use(express.json());
+app.use(fileUpload());
+app.use("/uploads", express.static("uploads"));
 
-// Connessione a MongoDB
-mongoose
-    .connect("mongodb://127.0.0.1:27017/plusmarket", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => console.log("MongoDB connesso"))
-    .catch((err) => console.error("Errore MongoDB:", err));
-
-// Import corretto della route prodotti
-import productsRoutes from "./routes/productsRoutes.js";
+// Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/products", productsRoutes);
+app.use("/api/orders", ordersRoutes);
 
-// Route di test
-app.get("/", (req, res) => {
-    res.send("Backend PlusMarket attivo");
-});
+// Railway PORT
+const PORT = process.env.PORT || 3000;
 
-// Avvio del server — ACCESSIBILE DALL’ESTERNO
-app.listen(5000, "0.0.0.0", () => {
-    console.log("Server backend avviato sulla porta 5000 e accessibile dall'esterno");
+app.listen(PORT, () => {
+    console.log(`Backend avviato sulla porta ${PORT}`);
 });
