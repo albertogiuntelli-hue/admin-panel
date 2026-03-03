@@ -1,13 +1,3 @@
-import pkg from "pg";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-const { Pool } = pkg;
-
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }
-});
-
-export default pool;
+DATABASE_URL = "postgresql://postgres:...@nozomi.proxy.rlwy.net:40101/railway?sslmode=require"
+PORT = 3000
+JWT_SECRET = qualcosa_di_sicuro
