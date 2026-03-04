@@ -1,8 +1,8 @@
 import api from "../api/api";
 
 export const getProducts = async () => {
-    const res = await api.get("/products/products");
-    return res.data;
+    const res = await api.get("/products");   // ✅ CORRETTO
+    return res.data;                          // res.data è un array
 };
 
 export const uploadCSV = async (file) => {
